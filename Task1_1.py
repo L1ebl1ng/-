@@ -37,7 +37,13 @@ def build_line_bebroid(line_for_bebroid):
 
 # Обращаемся в консольку за инфой
 def tracer(address):
-    data = subprocess.check_output(["tracert", address]).splitlines()
+    data = False
+    try:
+        data = subprocess.check_output(
+            ["tracert", address]).splitlines()
+    except subprocess.CalledProcessError:
+        print(f'Error for address: "{address}"')
+        exit(0)
     for line in data[2:]:
         bebroided_line = build_line_bebroid(line)
         if bebroided_line is not None:
