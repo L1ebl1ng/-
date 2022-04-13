@@ -6,19 +6,19 @@ import json
 from urllib.request import urlopen
 
 
-# Через ipinfo.io берем городок по ip
-def find_city(ip):
+# Через ipinfo.io берем провайдера по ip
+def find_provider(ip):
     url = f'http://ipinfo.io/{ ip }/json'
     response = urlopen(url)
     res = json.load(response)
-    return res['city']
+    return res['org']
 
 
-# Берем ASN + страну через ipwhois.IPWhois по ip и добовляем город
+# Берем ASN + страну через ipwhois.IPWhois по ip и добовляем провайдера
 def get_ASN_info(ip):
     obj = ipwhois.IPWhois(ip)
     res = obj.lookup_whois()
-    return f'{ res["asn"] }\tCOUNTRY:{ str(res["nets"][0]["country"]) }\tCITY:{ find_city(ip) }'
+    return f'{ res["asn"] }\tCOUNTRY:{ str(res["nets"][0]["country"]) }\tPROVIDER:{ find_provider(ip) }'
 
 
 # Декадируем полученное из запроса "tracert" в консоли, строим и отдаем в удобоваримом виде
