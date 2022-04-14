@@ -11,7 +11,7 @@ def find_provider(ip):
     url = f'http://ipinfo.io/{ ip }/json'
     response = urlopen(url)
     res = json.load(response)
-    return res['org']
+    return res['org'].split()[1]
 
 
 # Берем ASN + страну через ipwhois.IPWhois по ip и добовляем провайдера
